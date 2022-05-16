@@ -19,7 +19,7 @@ class UserAccountService() {
         val tokenCompletableFuture =
             loginClient.downloadToken(map(userAccountInfoRequest))
                 .toFuture()
-                .toTwitterFunction()
+                .toTwitterFuture()
 
         return tokenCompletableFuture
             .flatMap{ response ->
@@ -39,7 +39,7 @@ class UserAccountService() {
             }
     }
 
-    private fun <T> CompletableFuture<T>.toTwitterFunction(): Future<T> {
+    private fun <T> CompletableFuture<T>.toTwitterFuture(): Future<T> {
         val promise = Promise<T>()
         this.whenComplete { value, ex ->
             if (ex == null) {
